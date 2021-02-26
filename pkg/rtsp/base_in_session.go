@@ -17,7 +17,7 @@ import (
 
 	"github.com/souliot/naza/pkg/nazaerrors"
 	"github.com/souliot/naza/pkg/nazastring"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 
 	"github.com/souliot/naza/pkg/connection"
 	"github.com/souliot/naza/pkg/nazanet"

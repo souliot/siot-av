@@ -19,7 +19,7 @@ import (
 
 	"github.com/souliot/siot-av/pkg/base"
 
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 // TODO chef: 转换TS流的功能（通过回调供httpts使用）也放在了Muxer中，好处是hls和httpts可以共用一份TS流。

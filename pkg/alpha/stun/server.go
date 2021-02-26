@@ -12,7 +12,7 @@ import (
 	"net"
 
 	"github.com/souliot/naza/pkg/nazanet"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 type Server struct {

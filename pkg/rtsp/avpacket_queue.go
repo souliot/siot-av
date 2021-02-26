@@ -43,7 +43,7 @@ func NewAVPacketQueue(onAVPacket OnAVPacket) *AVPacketQueue {
 
 // 注意，调用方保证，音频相较于音频，视频相较于视频，时间戳是线性递增的。
 func (a *AVPacketQueue) Feed(pkt base.AVPacket) {
-	//log.DefaultBeeLogger.Debug("AVQ feed. t=%d, ts=%d", pkt.PayloadType, pkt.Timestamp)
+	//log.Debug("AVQ feed. t=%d, ts=%d", pkt.PayloadType, pkt.Timestamp)
 	switch pkt.PayloadType {
 	case base.AVPacketPTAVC:
 		fallthrough
@@ -61,7 +61,7 @@ func (a *AVPacketQueue) Feed(pkt base.AVPacket) {
 			a.onAVPacket(ppkt)
 			return
 		}
-		//log.DefaultBeeLogger.Debug("AVQ v push. a=%d, v=%d", a.audioQueue.Size(), a.videoQueue.Size())
+		//log.Debug("AVQ v push. a=%d, v=%d", a.audioQueue.Size(), a.videoQueue.Size())
 	case base.AVPacketPTAAC:
 		if a.audioBaseTS == -1 {
 			a.audioBaseTS = int64(pkt.Timestamp)
@@ -76,7 +76,7 @@ func (a *AVPacketQueue) Feed(pkt base.AVPacket) {
 			a.onAVPacket(ppkt)
 			return
 		}
-		//log.DefaultBeeLogger.Debug("AVQ a push. a=%d, v=%d", a.audioQueue.Size(), a.videoQueue.Size())
+		//log.Debug("AVQ a push. a=%d, v=%d", a.audioQueue.Size(), a.videoQueue.Size())
 	} //switch loop
 
 	for !a.audioQueue.Empty() && !a.videoQueue.Empty() {
@@ -86,11 +86,11 @@ func (a *AVPacketQueue) Feed(pkt base.AVPacket) {
 		vvpkt := vpkt.(base.AVPacket)
 		if aapkt.Timestamp < vvpkt.Timestamp {
 			_, _ = a.audioQueue.PopFront()
-			//log.DefaultBeeLogger.Debug("AVQ a pop. a=%d, v=%d", a.audioQueue.Size(), a.videoQueue.Size())
+			//log.Debug("AVQ a pop. a=%d, v=%d", a.audioQueue.Size(), a.videoQueue.Size())
 			a.onAVPacket(aapkt)
 		} else {
 			_, _ = a.videoQueue.PopFront()
-			//log.DefaultBeeLogger.Debug("AVQ v pop. a=%d, v=%d", a.audioQueue.Size(), a.videoQueue.Size())
+			//log.Debug("AVQ v pop. a=%d, v=%d", a.audioQueue.Size(), a.videoQueue.Size())
 			a.onAVPacket(vvpkt)
 		}
 	}

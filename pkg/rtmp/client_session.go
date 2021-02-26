@@ -22,7 +22,7 @@ import (
 
 	"github.com/souliot/naza/pkg/bele"
 	"github.com/souliot/naza/pkg/connection"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 var ErrClientSessionTimeout = errors.New("lal.rtmp: client session timeout")

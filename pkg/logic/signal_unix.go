@@ -15,13 +15,13 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 func runSignalHandler(cb func()) {
 	c := make(chan os.Signal)
 	signal.Notify(c, syscall.SIGUSR1, syscall.SIGUSR2)
 	s := <-c
-	log.DefaultBeeLogger.Info("recv signal. s=%+v", s)
+	log.Info("recv signal. s=%+v", s)
 	cb()
 }

@@ -11,7 +11,7 @@ package httpts
 import (
 	"net"
 
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 type ServerObserver interface {

@@ -16,7 +16,7 @@ import (
 	"time"
 
 	"github.com/souliot/naza/pkg/bele"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 // https://pengrl.com/p/20027
@@ -227,7 +227,7 @@ func parseChallenge(c0c1 []byte) []byte {
 	//}
 	ver := bele.BEUint32(c0c1[5:])
 	if ver == 0 {
-		log.DefaultBeeLogger.Debug("handshake simple mode.")
+		log.Debug("handshake simple mode.")
 		return nil
 	}
 
@@ -236,10 +236,10 @@ func parseChallenge(c0c1 []byte) []byte {
 		offs = findDigest(c0c1[1:], 8, clientKey[:clientPartKeyLen])
 	}
 	if offs == -1 {
-		log.DefaultBeeLogger.Warn("get digest offs failed. roll back to try simple handshake.")
+		log.Warn("get digest offs failed. roll back to try simple handshake.")
 		return nil
 	}
-	log.DefaultBeeLogger.Debug("handshake complex mode.")
+	log.Debug("handshake complex mode.")
 
 	// use c0c1 digest to make a new digest
 	digest := makeDigest(c0c1[1+offs:1+offs+keyLen], serverKey[:serverFullKeyLen])

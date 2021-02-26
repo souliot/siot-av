@@ -29,7 +29,7 @@ func BenchmarkFLVFileReader(b *testing.B) {
 		}
 		r.Dispose()
 	}
-	//log.DefaultBeeLogger.Debug(tmp)
+	//log.Debug(tmp)
 }
 
 func BenchmarkCloneTag(b *testing.B) {

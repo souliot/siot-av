@@ -19,7 +19,7 @@ import (
 	"io"
 
 	"github.com/souliot/naza/pkg/bele"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 var (
@@ -367,7 +367,7 @@ func (amf0) ReadArray(b []byte) (ObjectPairArray, int, error) {
 		index += 3
 	} else {
 		// 测试时发现Array最后也是以00 00 09结束，不确定是否是标准规定的，加个日志在这
-		log.DefaultBeeLogger.Debug("amf ReadArray without suffix AMF0TypeMarkerObjectEndBytes.")
+		log.Debug("amf ReadArray without suffix AMF0TypeMarkerObjectEndBytes.")
 	}
 	return ops, index, nil
 }

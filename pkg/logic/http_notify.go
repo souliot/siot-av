@@ -16,7 +16,7 @@ import (
 
 	"github.com/souliot/naza/pkg/nazahttp"
 	"github.com/souliot/siot-av/pkg/base"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 var (

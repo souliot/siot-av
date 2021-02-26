@@ -15,7 +15,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/siot-av/pkg/remux"
 
 	"github.com/souliot/naza/pkg/defertaskthread"

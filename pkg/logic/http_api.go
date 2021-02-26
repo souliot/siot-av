@@ -18,7 +18,7 @@ import (
 
 	"github.com/souliot/naza/pkg/bininfo"
 	"github.com/souliot/siot-av/pkg/base"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 )
 
 var serverStartTime string

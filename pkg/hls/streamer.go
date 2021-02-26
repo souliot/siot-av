@@ -13,7 +13,7 @@ import (
 	"github.com/souliot/siot-av/pkg/aac"
 	"github.com/souliot/siot-av/pkg/avc"
 	"github.com/souliot/siot-av/pkg/base"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/siot-av/pkg/mpegts"
 )
 

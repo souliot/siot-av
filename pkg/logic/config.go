@@ -13,7 +13,7 @@ import (
 	"io/ioutil"
 
 	"github.com/souliot/siot-av/pkg/httpflv"
-	"github.com/souliot/siot-av/pkg/log"
+	"github.com/souliot/naza/pkg/log"
 
 	"github.com/souliot/naza/pkg/nazajson"
 	"github.com/souliot/siot-av/pkg/hls"
@@ -126,7 +126,7 @@ func LoadConf(confFile string) (*Config, error) {
 	}
 	for _, kf := range keyFieldList {
 		if !j.Exist(kf) {
-			log.DefaultBeeLogger.Warn("missing config item %s", kf)
+			log.Warn("missing config item %s", kf)
 		}
 	}
 	return &config, nil
