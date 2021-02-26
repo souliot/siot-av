@@ -12,7 +12,6 @@ import (
 	"testing"
 
 	"github.com/souliot/naza/pkg/assert"
-	"github.com/souliot/siot-av/pkg/hls"
 )
 
 func TestCalcM3U8Duration(t *testing.T) {
@@ -45,7 +44,7 @@ func TestCalcM3U8Duration(t *testing.T) {
 1607342320-9.ts
 #EXT-X-ENDLIST
 `)
-	duration, err := hls.CalcM3U8Duration(golden)
+	duration, err := CalcM3U8Duration(golden)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, float64(39.2), duration)
 }
