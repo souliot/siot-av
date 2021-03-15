@@ -16,8 +16,8 @@ import (
 	"io"
 
 	"github.com/souliot/naza/pkg/bele"
-	"github.com/souliot/siot-av/pkg/base"
 	"github.com/souliot/naza/pkg/log"
+	"github.com/souliot/siot-av/pkg/base"
 )
 
 type ChunkComposer struct {
@@ -109,7 +109,7 @@ func (c *ChunkComposer) RunLoop(reader io.Reader, cb OnCompleteMessage) error {
 		case 3:
 			// noop
 		}
-		//log.Debug("RTMP_CHUNK_COMPOSER chunk.fmt=%d, csid=%d, header=%+v", fmt, csid, stream.header)
+		//log.DefaultBeeLogger.Debug("RTMP_CHUNK_COMPOSER chunk.fmt=%d, csid=%d, header=%+v", fmt, csid, stream.header)
 
 		// 5.3.1.3 Extended Timestamp
 		// 使用ffmpeg推流时，发现时间戳超过3字节最大值后，即使是fmt3(即包头大小为0)，依然存在ext ts字段
@@ -123,7 +123,7 @@ func (c *ChunkComposer) RunLoop(reader io.Reader, cb OnCompleteMessage) error {
 				return err
 			}
 			stream.timestamp = bele.BEUint32(bootstrap)
-			//log.Debug("RTMP_CHUNK_COMPOSER ext. extTs=%d", stream.header.Timestamp)
+			//log.DefaultBeeLogger.Debug("RTMP_CHUNK_COMPOSER ext. extTs=%d", stream.header.Timestamp)
 			switch fmt {
 			case 0:
 				stream.header.TimestampAbs = stream.timestamp
@@ -165,7 +165,7 @@ func (c *ChunkComposer) RunLoop(reader io.Reader, cb OnCompleteMessage) error {
 				stream.header.TimestampAbs += stream.timestamp
 			}
 			absTsFlag = false
-			//log.Debug("RTMP_CHUNK_COMPOSER cb. fmt=%d, csid=%d, header=%+v, c=%p", fmt, csid, stream.header, c)
+			//log.DefaultBeeLogger.Debug("RTMP_CHUNK_COMPOSER cb. fmt=%d, csid=%d, header=%+v, c=%p", fmt, csid, stream.header, c)
 
 			if err := cb(stream); err != nil {
 				return err
@@ -173,7 +173,7 @@ func (c *ChunkComposer) RunLoop(reader io.Reader, cb OnCompleteMessage) error {
 			stream.msg.clear()
 		}
 		if stream.msg.len() > stream.header.MsgLen {
-			log.Error("stream msg len should not greater than len field in header. stream.msg.len=%d, len.in.header=%d", stream.msg.len(), stream.header.MsgLen)
+			log.DefaultBeeLogger.Error("stream msg len should not greater than len field in header. stream.msg.len=%d, len.in.header=%d", stream.msg.len(), stream.header.MsgLen)
 		}
 	}
 }

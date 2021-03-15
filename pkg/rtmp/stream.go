@@ -12,8 +12,8 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/souliot/siot-av/pkg/base"
 	"github.com/souliot/naza/pkg/log"
+	"github.com/souliot/siot-av/pkg/base"
 )
 
 const initMsgLen = 4096
@@ -80,7 +80,7 @@ func (msg *StreamMsg) reserve(n uint32) {
 	nb := make([]byte, bufCap+nn)
 	copy(nb, msg.buf[msg.b:msg.e])
 	msg.buf = nb
-	log.Debug("reserve. need:%d left:%d %d %d", n, nn, len(msg.buf), cap(msg.buf))
+	log.DefaultBeeLogger.Debug("reserve. need:%d left:%d %d %d", n, nn, len(msg.buf), cap(msg.buf))
 }
 
 func (msg *StreamMsg) len() uint32 {

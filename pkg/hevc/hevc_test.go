@@ -12,11 +12,10 @@ import (
 	"testing"
 
 	"github.com/souliot/naza/pkg/assert"
-	"github.com/souliot/siot-av/pkg/hevc"
 )
 
 // http://ffmpeg.org/doxygen/trunk/hevc_8c_source.html
-// https://chromium.googlesource.com/chromium/src/media/+/master/formats/mp4/hevc.cc
+// https://chromium.googlesource.com/chromium/src/media/+/master/formats/mp4/cc
 // http://javadox.com/com.googlecode.mp4parser/isoparser/1.0.4.2/com/mp4parser/iso14496/part15/HevcDecoderConfigurationRecord.java.html
 // https://github.com/NVIDIA/vdpau-hevc-example/blob/master/gsth265parser.c
 
@@ -70,7 +69,7 @@ var goldenPPS2 = []byte{
 }
 
 func TestParseVPSSPSPPSFromSeqHeader(t *testing.T) {
-	vps, sps, pps, err := hevc.ParseVPSSPSPPSFromSeqHeader(goldenSH2)
+	vps, sps, pps, err := ParseVPSSPSPPSFromSeqHeader(goldenSH2)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, goldenVPS2, vps)
 	assert.Equal(t, goldenSPS2, sps)
@@ -78,12 +77,12 @@ func TestParseVPSSPSPPSFromSeqHeader(t *testing.T) {
 }
 
 func TestVPSSPSPPSSeqHeader2AnnexB(t *testing.T) {
-	_, err := hevc.VPSSPSPPSSeqHeader2AnnexB(goldenSH2)
+	_, err := VPSSPSPPSSeqHeader2AnnexB(goldenSH2)
 	assert.Equal(t, nil, err)
 }
 
 func TestBuildSeqHeaderFromVPSSPSPPS(t *testing.T) {
-	out, err := hevc.BuildSeqHeaderFromVPSSPSPPS(goldenVPS2, goldenSPS2, goldenPPS2)
+	out, err := BuildSeqHeaderFromVPSSPSPPS(goldenVPS2, goldenSPS2, goldenPPS2)
 	assert.Equal(t, nil, err)
 
 	// golden里面num为4，所以我们hack一下再比较
@@ -93,7 +92,7 @@ func TestBuildSeqHeaderFromVPSSPSPPS(t *testing.T) {
 }
 
 func TestParseSPS(t *testing.T) {
-	var ctx hevc.Context
-	err := hevc.ParseSPS(goldenSPS2, &ctx)
+	var ctx Context
+	err := ParseSPS(goldenSPS2, &ctx)
 	assert.Equal(t, nil, err)
 }

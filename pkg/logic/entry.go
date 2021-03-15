@@ -28,10 +28,10 @@ var (
 func Entry(confFile string) {
 	config = loadConf(confFile)
 	initLog()
-	log.Info("bininfo: %s", bininfo.StringifySingleLine())
-	log.Info("version: %s", base.LALFullInfo)
-	log.Info("github: %s", base.LALGithubSite)
-	log.Info("doc: %s", base.LALDocSite)
+	log.DefaultBeeLogger.Info("bininfo: %s", bininfo.StringifySingleLine())
+	log.DefaultBeeLogger.Info("version: %s", base.LALFullInfo)
+	log.DefaultBeeLogger.Info("github: %s", base.LALGithubSite)
+	log.DefaultBeeLogger.Info("doc: %s", base.LALDocSite)
 
 	sm = NewServerManager(log.DefaultBeeLogger)
 
@@ -52,24 +52,24 @@ func Dispose() {
 func loadConf(confFile string) *Config {
 	config, err := LoadConf(confFile)
 	if err != nil {
-		log.Error("load conf failed. file=%s err=%+v", confFile, err)
+		log.DefaultBeeLogger.Error("load conf failed. file=%s err=%+v", confFile, err)
 		os.Exit(1)
 	}
-	log.Info("load conf file succ. file=%s content=%+v", confFile, config)
+	log.DefaultBeeLogger.Info("load conf file succ. file=%s content=%+v", confFile, config)
 	return config
 }
 
 func initLog() {
-	log.WithPrefix("pkg.logic.entry")
+	log.DefaultBeeLogger.WithPrefix("pkg.logic.entry")
 }
 
 func runWebPProf(addr string) {
-	log.Info("start web pprof listen. addr=%s", addr)
+	log.DefaultBeeLogger.Info("start web pprof listen. addr=%s", addr)
 
 	//http.DefaultServeMux.Handle("/debug/fgprof", fgprof.Handler())
 
 	if err := http.ListenAndServe(addr, nil); err != nil {
-		log.Error(err)
+		log.DefaultBeeLogger.Error(err)
 		return
 	}
 }

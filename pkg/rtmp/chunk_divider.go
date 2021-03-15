@@ -13,8 +13,8 @@ package rtmp
 // 将message切割成chunk
 
 import (
-	"github.com/souliot/siot-av/pkg/base"
 	"github.com/souliot/naza/pkg/bele"
+	"github.com/souliot/siot-av/pkg/base"
 )
 
 type ChunkDivider struct {
@@ -110,7 +110,7 @@ func calcHeader(header *base.RTMPHeader, prevHeader *base.RTMPHeader, out []byte
 
 	// 设置扩展时间戳
 	if timestamp > maxTimestampInMessageHeader {
-		//log.Debugf("CHEFERASEME %+v %+v %d %d", header, prevHeader, timestamp, index)
+		//log.DefaultBeeLogger.Debug("CHEFERASEME %+v %+v %d %d", header, prevHeader, timestamp, index)
 		bele.BEPutUint32(out[index:], timestamp)
 		index += 4
 	}

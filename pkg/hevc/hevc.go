@@ -125,7 +125,7 @@ func ParseVPSSPSPPSFromSeqHeader(payload []byte) (vps, sps, pps []byte, err erro
 	if payload[0] != 0x1c || payload[1] != 0x00 || payload[2] != 0 || payload[3] != 0 || payload[4] != 0 {
 		return nil, nil, nil, ErrHEVC
 	}
-	//log.Debug("%s", hex.Dump(payload))
+	//log.DefaultBeeLogger.Debug("%s", hex.Dump(payload))
 
 	if len(payload) < 33 {
 		return nil, nil, nil, ErrHEVC

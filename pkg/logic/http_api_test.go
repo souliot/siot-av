@@ -15,9 +15,9 @@ import (
 func TestHTTPAPIServer(t *testing.T) {
 	//s := logic.NewHTTPAPIServer(":8083")
 	//if err := s.Listen(); err != nil {
-	//	log.Error(err)
+	//	log.DefaultBeeLogger.Error(err)
 	//	return
 	//}
 	//err := s.Runloop()
-	//log.Error(err)
+	//log.DefaultBeeLogger.Error(err)
 }

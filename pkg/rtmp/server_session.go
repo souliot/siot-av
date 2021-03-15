@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/souliot/siot-av/pkg/base"
 	"github.com/souliot/naza/pkg/log"
+	"github.com/souliot/siot-av/pkg/base"
 
 	"github.com/souliot/naza/pkg/bele"
 	"github.com/souliot/naza/pkg/connection"
@@ -206,7 +206,7 @@ func (s *ServerSession) handshake() error {
 }
 
 func (s *ServerSession) doMsg(stream *Stream) error {
-	//log.Debugf("%d %d %v", stream.header.msgTypeID, stream.msgLen, stream.header)
+	//log.DefaultBeeLogger.Debug("%d %d %v", stream.header.msgTypeID, stream.msgLen, stream.header)
 	switch stream.header.MsgTypeID {
 	case base.RTMPTypeIDSetChunkSize:
 		// noop

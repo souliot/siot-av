@@ -10,9 +10,9 @@ package rtprtcp
 
 import (
 	"github.com/souliot/naza/pkg/bele"
+	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/siot-av/pkg/avc"
 	"github.com/souliot/siot-av/pkg/base"
-	"github.com/souliot/naza/pkg/log"
 )
 
 func calcPositionIfNeededAVC(pkt *RTPPacket) {
@@ -82,7 +82,7 @@ func calcPositionIfNeededAVC(pkt *RTPPacket) {
 	} else if outerNALUType == NALUTypeAVCSTAPA {
 		pkt.positionType = PositionTypeSTAPA
 	} else {
-		log.Error("unknown nalu type. outerNALUType=%d", outerNALUType)
+		log.DefaultBeeLogger.Error("unknown nalu type. outerNALUType=%d", outerNALUType)
 	}
 
 	return
@@ -125,7 +125,7 @@ func (r *RTPUnpacker) unpackOneAVCOrHEVC() bool {
 		totalSize := 0
 		for i := 0; i != len(buf); {
 			if len(buf)-i < 2 {
-				log.Error("invalid STAP-A packet.")
+				log.DefaultBeeLogger.Error("invalid STAP-A packet.")
 				return false
 			}
 			naluSize := int(bele.BEUint16(buf[i:]))
@@ -234,7 +234,7 @@ func (r *RTPUnpacker) unpackOneAVCOrHEVC() bool {
 				return true
 			} else {
 				// 不应该出现其他类型
-				log.Error("invalid position type. position=%d", p.packet.positionType)
+				log.DefaultBeeLogger.Error("invalid position type. position=%d", p.packet.positionType)
 				return false
 			}
 		}
@@ -244,7 +244,7 @@ func (r *RTPUnpacker) unpackOneAVCOrHEVC() bool {
 	case PositionTypeFUAEnd:
 		// noop
 	default:
-		log.Error("invalid position. pos=%d", first.packet.positionType)
+		log.DefaultBeeLogger.Error("invalid position. pos=%d", first.packet.positionType)
 	}
 
 	return false

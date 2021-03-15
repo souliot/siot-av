@@ -102,7 +102,7 @@ func TestWrite(t *testing.T) {
 	//	a := fmt.Sprintf("0x%x, ", buf.Bytes()[i])
 	//	str += a
 	//}
-	//log.Info(str)
+	//log.DefaultBeeLogger.Info(str)
 }
 
 func TestPackCorner(t *testing.T) {

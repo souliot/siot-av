@@ -10,12 +10,12 @@ package remux
 
 import (
 	"github.com/souliot/naza/pkg/bele"
+	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/siot-av/pkg/aac"
 	"github.com/souliot/siot-av/pkg/avc"
 	"github.com/souliot/siot-av/pkg/base"
 	"github.com/souliot/siot-av/pkg/hevc"
 	"github.com/souliot/siot-av/pkg/httpflv"
-	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/siot-av/pkg/rtmp"
 )
 
@@ -52,7 +52,7 @@ func AVConfig2FLVTag(asc, vps, sps, pps []byte) (metadata, ash, vsh *httpflv.Tag
 				width = int(ctx.PicWidthInLumaSamples)
 				height = int(ctx.PicHeightInLumaSamples)
 			} else {
-				log.Warn("parse hevc sps failed. err=%+v", err)
+				log.DefaultBeeLogger.Warn("parse hevc sps failed. err=%+v", err)
 			}
 			bVsh, err = hevc.BuildSeqHeaderFromVPSSPSPPS(vps, sps, pps)
 			if err != nil {

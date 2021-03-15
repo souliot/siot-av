@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/souliot/naza/pkg/nazamd5"
 	"github.com/souliot/naza/pkg/log"
+	"github.com/souliot/naza/pkg/nazamd5"
 )
 
 // TODO chef: 考虑部分内容移入naza中
@@ -45,7 +45,7 @@ func (a *Auth) FeedWWWAuthenticate(s, username, password string) {
 		return
 	}
 	if !strings.HasPrefix(s, AuthTypeDigest) {
-		log.Warn("FeedWWWAuthenticate type invalid. v=%s", s)
+		log.DefaultBeeLogger.Warn("FeedWWWAuthenticate type invalid. v=%s", s)
 		return
 	}
 
@@ -55,13 +55,13 @@ func (a *Auth) FeedWWWAuthenticate(s, username, password string) {
 	a.Algorithm = a.getV(s, `algorithm="`)
 
 	if a.Realm == "" {
-		log.Warn("FeedWWWAuthenticate realm invalid. v=%s", s)
+		log.DefaultBeeLogger.Warn("FeedWWWAuthenticate realm invalid. v=%s", s)
 	}
 	if a.Nonce == "" {
-		log.Warn("FeedWWWAuthenticate realm invalid. v=%s", s)
+		log.DefaultBeeLogger.Warn("FeedWWWAuthenticate realm invalid. v=%s", s)
 	}
 	if a.Algorithm != AuthAlgorithm {
-		log.Warn("FeedWWWAuthenticate algorithm invalid, only support MD5. v=%s", s)
+		log.DefaultBeeLogger.Warn("FeedWWWAuthenticate algorithm invalid, only support MD5. v=%s", s)
 	}
 }
 

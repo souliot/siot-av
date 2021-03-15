@@ -12,7 +12,6 @@ import (
 	"testing"
 
 	"github.com/souliot/naza/pkg/assert"
-	"github.com/souliot/siot-av/pkg/base"
 )
 
 type in struct {
@@ -24,10 +23,10 @@ type in struct {
 
 func TestParseURL(t *testing.T) {
 	// 非法url
-	_, err := base.ParseURL("invalidurl", -1)
+	_, err := ParseURL("invalidurl", -1)
 	assert.IsNotNil(t, err)
 
-	golden := map[in]base.URLContext{
+	golden := map[in]URLContext{
 		// 常见url，url中无端口，另外设置默认端口
 		in{rawURL: "rtmp://127.0.0.1/live/test110", defaultPort: 1935}: {
 			URL:                   "rtmp://127.0.0.1/live/test110",
@@ -181,14 +180,14 @@ func TestParseURL(t *testing.T) {
 	}
 
 	for k, v := range golden {
-		ctx, err := base.ParseURL(k.rawURL, k.defaultPort)
+		ctx, err := ParseURL(k.rawURL, k.defaultPort)
 		assert.Equal(t, nil, err)
 		assert.Equal(t, v, ctx, k.rawURL)
 	}
 }
 
 func TestParseRTMPURL(t *testing.T) {
-	golden := map[string]base.URLContext{
+	golden := map[string]URLContext{
 		// 其他测试见ParseURL
 		"rtmp://127.0.0.1/test110": {
 			URL:                   "rtmp://127.0.0.1/test110",
@@ -206,14 +205,14 @@ func TestParseRTMPURL(t *testing.T) {
 		},
 	}
 	for k, v := range golden {
-		ctx, err := base.ParseRTMPURL(k)
+		ctx, err := ParseRTMPURL(k)
 		assert.Equal(t, nil, err)
 		assert.Equal(t, v, ctx, k)
 	}
 }
 
 func TestParseRTSPURL(t *testing.T) {
-	golden := map[string]base.URLContext{
+	golden := map[string]URLContext{
 		// 其他测试见ParseURL
 		"rtsp://admin:P!@1988@127.0.0.1:5554/h264/ch33/main/av_stream": {
 			URL:                   "rtsp://admin:P!@1988@127.0.0.1:5554/h264/ch33/main/av_stream",
@@ -233,7 +232,7 @@ func TestParseRTSPURL(t *testing.T) {
 		},
 	}
 	for k, v := range golden {
-		ctx, err := base.ParseRTSPURL(k)
+		ctx, err := ParseRTSPURL(k)
 		assert.Equal(t, nil, err)
 		assert.Equal(t, v, ctx, k)
 	}

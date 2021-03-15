@@ -9,8 +9,8 @@
 package rtprtcp
 
 import (
-	"github.com/souliot/siot-av/pkg/hevc"
 	"github.com/souliot/naza/pkg/log"
+	"github.com/souliot/siot-av/pkg/hevc"
 )
 
 func calcPositionIfNeededHEVC(pkt *RTPPacket) {
@@ -81,7 +81,7 @@ func calcPositionIfNeededHEVC(pkt *RTPPacket) {
 		return
 	default:
 		// TODO chef: 没有实现 AP 48
-		log.Error("unknown nalu type. outerNALUType=%d", outerNALUType)
+		log.DefaultBeeLogger.Error("unknown nalu type. outerNALUType=%d", outerNALUType)
 	}
 
 }

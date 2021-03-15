@@ -123,7 +123,9 @@ func (s *Server) handleTCPConnect(conn net.Conn) {
 	s.observer.OnNewRTSPSessionConnect(session)
 
 	err := session.RunLoop()
-	s.Log().Info(err)
+	if err != nil {
+		s.Log().Info(err)
+	}
 
 	if session.pubSession != nil {
 		s.observer.OnDelRTSPPubSession(session.pubSession)
