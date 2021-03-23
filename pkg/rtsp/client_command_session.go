@@ -17,10 +17,10 @@ import (
 	"time"
 
 	"github.com/souliot/naza/pkg/connection"
+	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/naza/pkg/nazahttp"
 	"github.com/souliot/naza/pkg/nazanet"
 	"github.com/souliot/siot-av/pkg/base"
-	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/siot-av/pkg/rtprtcp"
 	"github.com/souliot/siot-av/pkg/sdp"
 )
@@ -337,7 +337,7 @@ func (session *ClientCommandSession) writeOptions() error {
 		return err
 	}
 
-	methods := ctx.Headers[HeaderPublic]
+	methods := ctx.GetHeader(HeaderPublic)
 	if methods == "" {
 		return nil
 	}
@@ -424,9 +424,9 @@ func (session *ClientCommandSession) writeOneSetup(setupURI string) error {
 		return err
 	}
 
-	session.sessionID = strings.Split(ctx.Headers[HeaderSession], ";")[0]
+	session.sessionID = strings.Split(ctx.GetHeader(HeaderSession), ";")[0]
 
-	rRTPPort, rRTCPPort, err := parseServerPort(ctx.Headers[HeaderTransport])
+	rRTPPort, rRTCPPort, err := parseServerPort(ctx.GetHeader(HeaderTransport))
 	if err != nil {
 		return err
 	}
@@ -476,7 +476,7 @@ func (session *ClientCommandSession) writeOneSetupTCP(setupURI string) error {
 		return err
 	}
 
-	session.sessionID = strings.Split(ctx.Headers[HeaderSession], ";")[0]
+	session.sessionID = strings.Split(ctx.GetHeader(HeaderSession), ";")[0]
 
 	// TODO chef: 这里没有解析回传的channel id了，因为我假定了它和request中的是一致的
 	session.observer.OnSetupWithChannel(setupURI, rtpChannel, rtcpChannel)
@@ -545,8 +545,10 @@ func (session *ClientCommandSession) writeCmdReadResp(method, uri string, header
 		if ctx.StatusCode != "401" {
 			return
 		}
+		session.Log().Error("[%s] < read response. version=%s, code=%s, reason=%s, headers=%+v, body=%s",
+			session.UniqueKey, ctx.Version, ctx.StatusCode, ctx.Reason, ctx.Headers, string(ctx.Body))
 
-		session.auth.FeedWWWAuthenticate(ctx.Headers[HeaderWWWAuthenticate], session.urlCtx.Username, session.urlCtx.Password)
+		session.auth.FeedWWWAuthenticate(ctx.GetHeaderArr(HeaderWWWAuthenticate), session.urlCtx.Username, session.urlCtx.Password)
 	}
 
 	err = ErrRTSP

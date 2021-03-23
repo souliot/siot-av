@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/souliot/siot-av/pkg/base"
 	"github.com/souliot/naza/pkg/log"
+	"github.com/souliot/siot-av/pkg/base"
 
 	"github.com/souliot/naza/pkg/nazahttp"
 
@@ -31,7 +31,7 @@ type SubSession struct {
 	scheme string
 
 	pathWithRawQuery string
-	headers          map[string]string
+	headers          map[string][]string
 	urlCtx           base.URLContext
 
 	conn         connection.Connection

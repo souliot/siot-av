@@ -16,9 +16,9 @@ import (
 
 	"github.com/souliot/naza/pkg/connection"
 
+	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/naza/pkg/nazahttp"
 	"github.com/souliot/siot-av/pkg/base"
-	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/siot-av/pkg/sdp"
 )
 
@@ -194,7 +194,7 @@ Loop:
 
 func (session *ServerCommandSession) handleOptions(requestCtx nazahttp.HTTPReqMsgCtx) error {
 	session.Log().Info("[%s] < R OPTIONS", session.UniqueKey)
-	resp := PackResponseOptions(requestCtx.Headers[HeaderCSeq])
+	resp := PackResponseOptions(requestCtx.GetHeader(HeaderCSeq))
 	_, err := session.conn.Write([]byte(resp))
 	return err
 }
@@ -223,7 +223,7 @@ func (session *ServerCommandSession) handleAnnounce(requestCtx nazahttp.HTTPReqM
 		return ErrRTSP
 	}
 
-	resp := PackResponseAnnounce(requestCtx.Headers[HeaderCSeq])
+	resp := PackResponseAnnounce(requestCtx.GetHeader(HeaderCSeq))
 	_, err = session.conn.Write([]byte(resp))
 	return err
 }
@@ -248,7 +248,7 @@ func (session *ServerCommandSession) handleDescribe(requestCtx nazahttp.HTTPReqM
 	sdpLogicCtx, _ := sdp.ParseSDP2LogicContext(rawSDP)
 	session.subSession.InitWithSDP(rawSDP, sdpLogicCtx)
 
-	resp := PackResponseDescribe(requestCtx.Headers[HeaderCSeq], string(rawSDP))
+	resp := PackResponseDescribe(requestCtx.GetHeader(HeaderCSeq), string(rawSDP))
 	_, err = session.conn.Write([]byte(resp))
 	return err
 }
@@ -261,7 +261,7 @@ func (session *ServerCommandSession) handleSetup(requestCtx nazahttp.HTTPReqMsgC
 	host, _, _ := net.SplitHostPort(remoteAddr)
 
 	// 是否为interleaved模式
-	htv := requestCtx.Headers[HeaderTransport]
+	htv := requestCtx.GetHeader(HeaderTransport)
 	if strings.Contains(htv, TransportFieldInterleaved) {
 		rtpChannel, rtcpChannel, err := parseRTPRTCPChannel(htv)
 		if err != nil {
@@ -283,12 +283,12 @@ func (session *ServerCommandSession) handleSetup(requestCtx nazahttp.HTTPReqMsgC
 			return ErrRTSP
 		}
 
-		resp := PackResponseSetup(requestCtx.Headers[HeaderCSeq], htv)
+		resp := PackResponseSetup(requestCtx.GetHeader(HeaderCSeq), htv)
 		_, err = session.conn.Write([]byte(resp))
 		return err
 	}
 
-	rRTPPort, rRTCPPort, err := parseClientPort(requestCtx.Headers[HeaderTransport])
+	rRTPPort, rRTCPPort, err := parseClientPort(requestCtx.GetHeader(HeaderTransport))
 	if err != nil {
 		session.Log().Error("[%s] parseClientPort failed. err=%+v", session.UniqueKey, err)
 		return err
@@ -318,14 +318,14 @@ func (session *ServerCommandSession) handleSetup(requestCtx nazahttp.HTTPReqMsgC
 		return ErrRTSP
 	}
 
-	resp := PackResponseSetup(requestCtx.Headers[HeaderCSeq], htv)
+	resp := PackResponseSetup(requestCtx.GetHeader(HeaderCSeq), htv)
 	_, err = session.conn.Write([]byte(resp))
 	return err
 }
 
 func (session *ServerCommandSession) handleRecord(requestCtx nazahttp.HTTPReqMsgCtx) error {
 	session.Log().Info("[%s] < R RECORD", session.UniqueKey)
-	resp := PackResponseRecord(requestCtx.Headers[HeaderCSeq])
+	resp := PackResponseRecord(requestCtx.GetHeader(HeaderCSeq))
 	_, err := session.conn.Write([]byte(resp))
 	return err
 }
@@ -335,14 +335,14 @@ func (session *ServerCommandSession) handlePlay(requestCtx nazahttp.HTTPReqMsgCt
 	if ok := session.observer.OnNewRTSPSubSessionPlay(session.subSession); !ok {
 		return ErrRTSP
 	}
-	resp := PackResponsePlay(requestCtx.Headers[HeaderCSeq])
+	resp := PackResponsePlay(requestCtx.GetHeader(HeaderCSeq))
 	_, err := session.conn.Write([]byte(resp))
 	return err
 }
 
 func (session *ServerCommandSession) handleTeardown(requestCtx nazahttp.HTTPReqMsgCtx) error {
 	session.Log().Info("[%s] < R TEARDOWN", session.UniqueKey)
-	resp := PackResponseTeardown(requestCtx.Headers[HeaderCSeq])
+	resp := PackResponseTeardown(requestCtx.GetHeader(HeaderCSeq))
 	_, err := session.conn.Write([]byte(resp))
 	return err
 }

@@ -34,35 +34,37 @@ type Auth struct {
 	Algorithm string
 }
 
-func (a *Auth) FeedWWWAuthenticate(s, username, password string) {
+func (a *Auth) FeedWWWAuthenticate(ss []string, username, password string) {
 	a.Username = username
 	a.Password = password
+	for _, s := range ss {
+		s = strings.TrimPrefix(s, HeaderWWWAuthenticate)
+		s = strings.TrimSpace(s)
+		if strings.HasPrefix(s, AuthTypeDigest) {
+			a.Typ = AuthTypeDigest
+			a.Realm = a.getV(s, `realm="`)
+			a.Nonce = a.getV(s, `nonce="`)
+			a.Algorithm = a.getV(s, `algorithm="`)
 
-	s = strings.TrimPrefix(s, HeaderWWWAuthenticate)
-	s = strings.TrimSpace(s)
-	if strings.HasPrefix(s, AuthTypeBasic) {
-		a.Typ = AuthTypeBasic
-		return
-	}
-	if !strings.HasPrefix(s, AuthTypeDigest) {
-		log.DefaultBeeLogger.Warn("FeedWWWAuthenticate type invalid. v=%s", s)
-		return
-	}
+			if a.Realm == "" {
+				log.DefaultBeeLogger.Warn("FeedWWWAuthenticate realm invalid. v=%s", s)
+			}
+			if a.Nonce == "" {
+				log.DefaultBeeLogger.Warn("FeedWWWAuthenticate realm invalid. v=%s", s)
+			}
+			if a.Algorithm != AuthAlgorithm {
+				log.DefaultBeeLogger.Warn("FeedWWWAuthenticate algorithm invalid, only support MD5. v=%s", s)
+			}
+			return
+		}
 
-	a.Typ = AuthTypeDigest
-	a.Realm = a.getV(s, `realm="`)
-	a.Nonce = a.getV(s, `nonce="`)
-	a.Algorithm = a.getV(s, `algorithm="`)
+		if !strings.HasPrefix(s, AuthTypeBasic) {
+			log.DefaultBeeLogger.Warn("FeedWWWAuthenticate type invalid. v=%s", s)
+			return
+		}
 
-	if a.Realm == "" {
-		log.DefaultBeeLogger.Warn("FeedWWWAuthenticate realm invalid. v=%s", s)
 	}
-	if a.Nonce == "" {
-		log.DefaultBeeLogger.Warn("FeedWWWAuthenticate realm invalid. v=%s", s)
-	}
-	if a.Algorithm != AuthAlgorithm {
-		log.DefaultBeeLogger.Warn("FeedWWWAuthenticate algorithm invalid, only support MD5. v=%s", s)
-	}
+	a.Typ = AuthTypeBasic
 }
 
 // 如果没有调用`FeedWWWAuthenticate`初始化过，则直接返回空字符串
@@ -70,6 +72,7 @@ func (a *Auth) MakeAuthorization(method, uri string) string {
 	if a.Username == "" {
 		return ""
 	}
+	// log.DefaultBeeLogger.Info(a, uri)
 	switch a.Typ {
 	case AuthTypeBasic:
 		ha1 := nazamd5.MD5([]byte(fmt.Sprintf(`%s:%s`, a.Username, a.Password)))

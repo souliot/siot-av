@@ -14,9 +14,9 @@ import (
 	"net"
 	"time"
 
+	"github.com/souliot/naza/pkg/log"
 	"github.com/souliot/naza/pkg/nazahttp"
 	"github.com/souliot/siot-av/pkg/base"
-	"github.com/souliot/naza/pkg/log"
 
 	"github.com/souliot/naza/pkg/connection"
 )
@@ -215,7 +215,7 @@ func (session *PullSession) writeHTTPRequest() error {
 	return err
 }
 
-func (session *PullSession) readHTTPRespHeader() (statusLine string, headers map[string]string, err error) {
+func (session *PullSession) readHTTPRespHeader() (statusLine string, headers map[string][]string, err error) {
 	// TODO chef: timeout
 	if statusLine, headers, err = nazahttp.ReadHTTPHeader(session.conn); err != nil {
 		return
