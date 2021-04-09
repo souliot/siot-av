@@ -6,6 +6,10 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 h1:DAYUYH5869yV94zvCES9F51oYtN5oGlwjxJJz7ZCnik=
 github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18/go.mod h1:nkxAfR/5quYxwPZhyDxgasBMnRtBZd0FCEpawpjMUFg=
+github.com/souliot/naza v0.17.1-0.20210409055155-36a5d2c2dcf4 h1:Wjx0JmZ5Bv6xLLOfN+bW4IfIsDjpveeKTa4l7GgCmGg=
+github.com/souliot/naza v0.17.1-0.20210409055155-36a5d2c2dcf4/go.mod h1:GBgHokTEoU9vB64XbjLVtC9y1lotWEs2liCxDGAYEZo=
+github.com/souliot/siot-log v0.0.0-20210324090643-b8655a82c129 h1:OCQ5bitcQlfTFcGjsRfb9eqxdLDxDYnN55sXOzM11U0=
+github.com/souliot/siot-log v0.0.0-20210324090643-b8655a82c129/go.mod h1:jwkd8DERgjY1oh0Uck5unnWgcrF2bLFGOuBQ9/er1zI=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
